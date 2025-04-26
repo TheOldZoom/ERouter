@@ -193,6 +193,7 @@ const logger = new Logger({
 ```
 .
 ├── bun.lock
+├── LICENSE
 ├── package.json
 ├── README.md
 ├── src
@@ -201,16 +202,12 @@ const logger = new Logger({
 │   │   ├── ILogger.ts
 │   │   └── IRoute.ts
 │   ├── routes
-│   │   ├── [id]
-│   │   │   ├── id.ts
-│   │   │   ├── index.ts
-│   │   │   └── _middleware.ts
-│   │   ├── index.ts
+│   │   ├── hello
+│   │   │   └── index.ts
 │   │   ├── _middleware.ts
-│   │   └── test
-│   │       ├── id.ts
-│   │       ├── index.ts
-│   │       └── _middleware.ts
+│   │   └── users
+│   │       ├── [id].ts
+│   │       └── index.ts
 │   └── structures
 │       ├── Logger.ts
 │       ├── RouteLoader.ts

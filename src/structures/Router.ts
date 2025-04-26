@@ -4,7 +4,6 @@ import { RouteModule } from "../interfaces/IRoute";
 export default class Router {
   private routes: RouteModule = {};
 
-  // Assuming handlers might be asynchronous
   get(handler: RequestHandler): void | Promise<void> {
     this.routes.get = handler;
   }
