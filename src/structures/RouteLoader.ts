@@ -4,7 +4,6 @@ import express, { Express, RequestHandler } from "express";
 import { RouteModule, RouteOptions } from "../interfaces/IRoute";
 import Router from "./Router";
 import Logger from "./Logger";
-import bodyParser from "body-parser";
 
 class RouteLoader {
   private routeRegistry: Record<string, RouteModule> = {};
@@ -13,7 +12,7 @@ class RouteLoader {
 
   constructor(options: RouteOptions) {
     this.app = options.app;
-    this.app.use(bodyParser.json());
+    this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
 
     this.logger = new Logger({
@@ -59,7 +58,6 @@ class RouteLoader {
     items.sort((a, b) => {
       if (a === "index.ts" && b !== "index.ts") return -1;
       if (b === "index.ts" && a !== "index.ts") return 1;
-
       if (a.includes("[") && !b.includes("[")) return 1;
       if (b.includes("[") && !a.includes("[")) return -1;
 
@@ -81,6 +79,11 @@ class RouteLoader {
 
         const baseName = item.replace(/\.(js|ts)$/, "");
         const routeModule: Router = require(path.resolve(itemPath)).default;
+
+        if (typeof routeModule?.getRoutes !== "function") {
+          this.logger.warn(`Skipping invalid route module: ${item}`);
+          return;
+        }
 
         const routeName =
           baseName === "index" ? routePrefix : path.join(routePrefix, baseName);

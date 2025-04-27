@@ -1,35 +1,62 @@
-import { RequestHandler } from "express";
+import express, {
+  Router as ExpressRouter,
+  RequestHandler,
+  Request,
+  Response,
+  NextFunction,
+} from "express";
 import { RouteModule } from "../interfaces/IRoute";
 
+type AnyRequestHandler = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => any;
+
 export default class Router {
+  private expressRouter: ExpressRouter;
   private routes: RouteModule = {};
 
-  get(handler: RequestHandler): void | Promise<void> {
-    this.routes.get = handler;
+  constructor() {
+    this.expressRouter = express.Router();
   }
 
-  post(handler: RequestHandler): void | Promise<void> {
-    this.routes.post = handler;
+  get(...handlers: AnyRequestHandler[]): void {
+    this.routes.get = handlers as unknown as RequestHandler;
+    this.expressRouter.get("/", ...(handlers as RequestHandler[]));
   }
 
-  put(handler: RequestHandler): void | Promise<void> {
-    this.routes.put = handler;
+  post(...handlers: AnyRequestHandler[]): void {
+    this.routes.post = handlers as unknown as RequestHandler;
+    this.expressRouter.post("/", ...(handlers as RequestHandler[]));
   }
 
-  delete(handler: RequestHandler): void | Promise<void> {
-    this.routes.delete = handler;
+  put(...handlers: AnyRequestHandler[]): void {
+    this.routes.put = handlers as unknown as RequestHandler;
+    this.expressRouter.put("/", ...(handlers as RequestHandler[]));
   }
 
-  patch(handler: RequestHandler): void | Promise<void> {
-    this.routes.patch = handler;
+  delete(...handlers: AnyRequestHandler[]): void {
+    this.routes.delete = handlers as unknown as RequestHandler;
+    this.expressRouter.delete("/", ...(handlers as RequestHandler[]));
   }
 
-  all(handler: RequestHandler): void | Promise<void> {
-    this.routes.all = handler;
+  patch(...handlers: AnyRequestHandler[]): void {
+    this.routes.patch = handlers as unknown as RequestHandler;
+    this.expressRouter.patch("/", ...(handlers as RequestHandler[]));
+  }
+
+  all(...handlers: AnyRequestHandler[]): void {
+    this.routes.all = handlers as unknown as RequestHandler;
+    this.expressRouter.all("/", ...(handlers as RequestHandler[]));
   }
 
   getRoutes(): RouteModule {
     return this.routes;
+  }
+
+  getRouter(): ExpressRouter {
+    return this.expressRouter;
   }
 }
 
