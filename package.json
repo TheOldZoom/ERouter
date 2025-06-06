@@ -2,13 +2,14 @@
   "name": "backend",
   "module": "src/index.ts",
   "scripts": {
-    "dev": "bun run --watch src/index.ts",
+    "dev": "nodemon --exec bun run src/index.ts",
     "start": "bun run src/index.ts"
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "@types/express": "^5.0.1",
-    "@types/node": "^22.15.2",
+    "@types/express": "^5.0.2",
+    "@types/node": "^22.15.30",
+    "nodemon": "^3.1.10",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.8.3"
   },
@@ -16,6 +17,7 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "@prisma/client": "^6.9.0",
     "body-parser": "^2.2.0",
     "dotenv": "^16.5.0",
     "express": "^5.1.0"
